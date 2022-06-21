@@ -14,3 +14,9 @@ p2 = Person()
 p1.print()
 p2.name = "전우치"  #멤버변수 조정 안막음. 다 public
 p2.print()
+
+#런타임시에 변수 추가
+Person.title = "title이라는 변수가 있던것도 아닌데... 대신 자동완성은 안된다 ㅋ"
+print(p1.title)
+print(p2.title)
+print(Person.title)

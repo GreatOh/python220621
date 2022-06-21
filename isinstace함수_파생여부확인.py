@@ -2,8 +2,12 @@ class Person:
     pass
 class Bird:
     pass
+
+#부모 클래스인 Person을 상속받아서 자식클래스 정의
 class Student(Person):
     pass
+
+#인스턴스 생성... ㅎㅎㅎㅎ 방법 참
 p, s = Person(), Student()
 
 print("p is instance of Person: ", isinstance(p, Person))
