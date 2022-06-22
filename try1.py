@@ -1,5 +1,8 @@
 # try1.py
 
+from tkinter import CENTER
+
+
 def divide(a,b):
     return a/b
 
@@ -17,3 +20,5 @@ finally:
     print("무조건 실행(한번 더 체크)")
 
 print("---전체 코드 실행 종료---")
+
+
