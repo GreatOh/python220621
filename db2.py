@@ -1,8 +1,8 @@
-# db1.py
+# db2.py
 import sqlite3
 
-# 연결객체를 리턴받기(일단은 메모리에서 연습)
-con = sqlite3.connect(":memory:")
+# 연결객체를 리턴받기(파일에 영구적으로 저장)
+con = sqlite3.connect("c:\\work\\sample.db")
 # 커서객체를 리턴받기
 cur = con.cursor()
 # 테이블(스키마)을 생성
@@ -19,6 +19,7 @@ cur.execute("insert into PhoneBook values (?, ?);", (name, phoneNumber))
 datalist = (("tom", "010-123"),("dsp","010-456"))
 cur.executemany("insert into PhoneBook values (?, ?);", datalist)
 
+
 # 검색
 cur.execute("select * from PhoneBook;")
 print("---fetchone()---")
@@ -28,6 +29,9 @@ print(cur.fetchmany(2))
 cur.execute("select * from PhoneBook;")
 print("---fetchall()---")
 print(cur.fetchall())
+
+# 작업을 정상적으로 완료
+con.commit()
 
 # for row in cur:
 #     print(row)
