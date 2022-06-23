@@ -1,0 +1,222 @@
+[12008] 투자자별 거래실적통계기본 통계주식거래실적투자자별 거래실적조회구분기간합계일별추이거래량거래대금매도매수순매수시장구분전체KOSPIKOSDAQKONEX추가항목ETFETNELW조회기간상세보기조회Close주천주백만주원천원백만원십억원
+
+[12008] 투자자별 거래실적통계기본 통계주식거래실적투자자별 거래실적
+[12008] 투자자별 거래실적
+통계기본 통계주식거래실적투자자별 거래실적
+
+
+통계
+기본 통계
+주식
+거래실적
+투자자별 거래실적
+조회구분기간합계일별추이거래량거래대금매도매수순매수시장구분전체KOSPIKOSDAQKONEX추가항목ETFETNELW조회기간상세보기조회Close
+조회구분기간합계일별추이거래량거래대금매도매수순매수시장구분전체KOSPIKOSDAQKONEX추가항목ETFETNELW조회기간상세보기조회
+조회구분기간합계일별추이거래량거래대금매도매수순매수시장구분전체KOSPIKOSDAQKONEX추가항목ETFETNELW조회기간상세보기
+
+
+
+
+
+조회구분기간합계일별추이거래량거래대금매도매수순매수시장구분전체KOSPIKOSDAQKONEX추가항목ETFETNELW조회기간상세보기
+조회구분기간합계일별추이거래량거래대금매도매수순매수
+조회구분
+기간합계일별추이거래량거래대금매도매수순매수
+
+기간합계
+
+일별추이
+mdc.module.setModule({    name: 'SEARCH_COMPONENT__155718872',    mdi: {      name: mdc.module.getMdiModuleName()    },    function: function (self, api) {      var $content = api.getModuleNode();      var $element = $content.select('[name="inqTpCd"]');                          $element.on('click', function () {          mdc.module.getModule('MDCSTAT022_0')['inqTpCdChg']($(this));        });                }  });
+거래량거래대금
+거래량
+거래대금
+매도매수순매수
+매도
+매수
+순매수
+시장구분전체KOSPIKOSDAQKONEX추가항목ETFETNELW
+시장구분
+전체KOSPIKOSDAQKONEX
+
+전체
+
+KOSPI
+
+KOSDAQ
+
+KONEX
+추가항목
+ETFETNELW
+ETFETNELW
+ETF
+ETNELW
+ETN
+ELW
+ELW
+조회기간상세보기
+조회기간
+
+
+
+
+mdc.module.setModule({    name: 'SEARCH_COMPONENT__155718872',    mdi: {      name: mdc.module.getMdiModuleName()    },    function: function (self, api) {      var $content = api.getModuleNode();      var $element = $content.select('[name="endDd"]');            var params = {        baseName: 'krx.mdc.i18n.component',        key: 'B122.bld',        locale: 'ko'      };      var queryString = 'null';      if (queryString && queryString !== 'null') {        var queryArray = queryString.split('&');        queryArray.forEach(function (query) {          var name = query.split('=')[0];          var value = query.split('=')[1] || '';          params[name] = value;        });      }                              var calendarOption = {};          var input = [];                                                  input.push($content.select('[name="strtDd"]'));                            input.push($content.select('[name="endDd"]'));                                                        var date = '';          api.util.submitAjax({            method: 'GET',            url: '/comm/bldAttendant/executeForResourceBundle.cmd',            async: false,            data: params,            success: function (data) {              var output = data['result']['output'];              output.forEach(function (item) {                $.each(item, function (key, value) {                  date = value;                });              });            }          });          if (date) {            input.forEach(function (item) {              item.val(date);            });            //=== (20201028, 김정삼) compIdDateLimit 값을 지정한 경우 이 지정값(bld)으로 달력팝업활성화 종료일 기준을 변경한다                        calendarOption.limit = date;            var compIdDateLimit = 'B128';            var compId = 'B122';            if (compIdDateLimit && compIdDateLimit !== compId) {              api.util.submitAjax({                method: 'GET',                url: '/comm/bldAttendant/executeForResourceBundle.cmd',                async: false,                data: $.extend(params, {key: compIdDateLimit + '.bld'}),                success: function (data) {                  var output = data['result']['output'];                  output.forEach(function (item) {                    $.each(item, function (key, value) {                      calendarOption.limit = value;                    });                  });                }              });            }                        //===/            //=== (20201215, 김상훈) restictId 값을 지정한 경우 이 지정값(bld)으로 조회가능 시작일을 제한한다.                        var restictId = 'B155';            var menuId = mdc.getMdiView() ? mdc.getMdiView().id : '';            if (restictId && (menuId !== '' && menuId !== undefined)) {              params['menuId'] = menuId;              api.util.submitAjax({                method: 'GET',                url: '/comm/bldAttendant/executeForResourceBundle.cmd',                async: false,                data: $.extend(params, {key: restictId + '.bld'}),                success: function (data) {                  var output = data['result']['output'];                  calendarOption.restrictDate = output[0]['restrict_date'];                }              });            }                        //===/                        // 기간 재계산            var datePeriod = '-7d';            var periodType = datePeriod.substring(datePeriod.length - 1); // +-d, +-m, +-y            var period = Number(datePeriod.substring(0, datePeriod.length - 1));            date = api.util.calcDate(date).getCalcDate(periodType, Math.abs(period));            //변경된 시작일자가 영업일이 아닌경우 직전영업일로 일자 변경 (최한주:2021-08-25)                                api.util.submitAjax({                    method: 'GET',                    url: '/comm/bldAttendant/executeForResourceBundle.cmd',                    async: false,                    data: $.extend(params, {key: 'B161' + '.bld', inDate: date}),                    success: function (data) {                      var output = data['result']['output'];                      date = output[0]['bis_work_dt'];                    }                  });                            //20201215 김상훈, 달력 시작일자가 제한일보다 전일인 경우 제한일을 시작일로 설정            if(calendarOption.restrictDate != undefined && date < calendarOption.restrictDate){              date = calendarOption.restrictDate;            }            if (period >= 0) input[input.length - 1].val(date);            else input[0].val(date);                      }                    calendarOption.input = input;          calendarOption.positionTop = false;          calendarOption.showButton = true;          calendarOption.disabledDate = 'null';          calendarOption.disabledTp = 'null';          calendarOption.changeStrtDate = 'false';          calendarOption.validatePeriodBusDate = 'B161';          $.fn.calendar(calendarOption);                                      }  });
+상세보기
+상세보기
+
+상세보기
+조회
+mdc.module.setModule({    name: 'SEARCH_COMPONENT__155718874',    mdi: {      name: mdc.module.getMdiModuleName()    },    function: function (self, api) {      var $content = api.getModuleNode();      var $element = $content.select('[name="search"]');                          $element.on('click', function () {          mdc.module.getModule('MDCSTAT022_0')['search']($(this));        });                }  });
+Close
+주천주백만주원천원백만원십억원
+주천주백만주원천원백만원십억원
+
+주천주백만주원천원백만원십억원
+주천주백만주
+주
+천주
+백만주
+원천원백만원십억원
+원
+천원
+백만원
+십억원
+
+
+
+
+(function(mdc, $) {  var $sel = $('select[name="otherUnit"].CI-MDI-UNIT-MONEY');  if ( $('option',$sel).length <= 1 ) { $sel.addClass('bg_none'); }}(window.mdc, jQuery));
+투자자구분거래량거래대금매도매수순매수매도매수순매수
+투자자구분거래량거래대금매도매수순매수매도매수순매수
+투자자구분거래량거래대금매도매수순매수매도매수순매수
+투자자구분거래량거래대금
+투자자구분
+거래량
+거래대금
+매도매수순매수매도매수순매수
+매도
+매수
+순매수
+매도
+매수
+순매수
+
+
+
+
+
+
+
+
+
+일자기관 합계기타법인개인외국인 합계전체
+일자기관 합계기타법인개인외국인 합계전체
+일자기관 합계기타법인개인외국인 합계전체
+일자기관 합계기타법인개인외국인 합계전체
+일자
+기관 합계
+기타법인
+개인
+외국인 합계
+전체
+
+
+
+
+
+
+
+
+일자기관 합계기타법인개인외국인 합계전체
+일자기관 합계기타법인개인외국인 합계전체
+일자기관 합계기타법인개인외국인 합계전체
+일자기관 합계기타법인개인외국인 합계전체
+일자
+기관 합계
+기타법인
+개인
+외국인 합계
+전체
+
+
+
+
+
+
+
+
+일자금융투자보험투신사모은행기타금융연기금 등기타법인개인외국인기타외국인전체
+일자금융투자보험투신사모은행기타금융연기금 등기타법인개인외국인기타외국인전체
+일자금융투자보험투신사모은행기타금융연기금 등기타법인개인외국인기타외국인전체
+일자금융투자보험투신사모은행기타금융연기금 등기타법인개인외국인기타외국인전체
+일자
+금융투자
+보험
+투신
+사모
+은행
+기타금융
+연기금 등
+기타법인
+개인
+외국인
+기타외국인
+전체
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+일자금융투자보험투신사모은행기타금융연기금 등기타법인개인외국인기타외국인전체
+일자금융투자보험투신사모은행기타금융연기금 등기타법인개인외국인기타외국인전체
+일자금융투자보험투신사모은행기타금융연기금 등기타법인개인외국인기타외국인전체
+일자금융투자보험투신사모은행기타금융연기금 등기타법인개인외국인기타외국인전체
+일자
+금융투자
+보험
+투신
+사모
+은행
+기타금융
+연기금 등
+기타법인
+개인
+외국인
+기타외국인
+전체
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Open컨텐츠 문의 : (유)주식시장부,  (코)코스닥시장부,  (넥)코넥스시장부,  고객센터 (1577-0088)주당일자 최종 매매내역은 오후 6시 이후에 제공됩니다. 본 정보는 투자참고 사항이며, 오류가 발생하거나 지연될 수 있습니다. 제공된 정보에 의한 투자결과에 대한 법적인 책임을 지지 않습니다.
+Open
+컨텐츠 문의 : (유)주식시장부,  (코)코스닥시장부,  (넥)코넥스시장부,  고객센터 (1577-0088)주당일자 최종 매매내역은 오후 6시 이후에 제공됩니다. 본 정보는 투자참고 사항이며, 오류가 발생하거나 지연될 수 있습니다. 제공된 정보에 의한 투자결과에 대한 법적인 책임을 지지 않습니다.
+컨텐츠 문의 : (유)주식시장부,  (코)코스닥시장부,  (넥)코넥스시장부,  고객센터 (1577-0088)
+컨텐츠 문의
+주당일자 최종 매매내역은 오후 6시 이후에 제공됩니다.
+주
+당일자 최종 매매내역은 오후 6시 이후에 제공됩니다.
+당일자 최종 매매내역은 오후 6시 이후에 제공됩니다.
+본 정보는 투자참고 사항이며, 오류가 발생하거나 지연될 수 있습니다. 제공된 정보에 의한 투자결과에 대한 법적인 책임을 지지 않습니다.
+
+mdc.module.setModule({    name: 'MDCSTAT022_0',    init: 'init',    mdi: {      name: mdc.module.getMdiModuleName(),      event: {        afterViewActivated: ['resizeGrid'],        afterViewSizeChanged: ['resizeGrid']      }    },    function: function (self, api) {      var $content = api.getModuleNode();      var $f = $content.select('#MDCSTAT022_FORM');      self.resizeGrid = function (e) {        self.grid.setHeight(e.getContentLeftHeight());        self.grid.resize();      };      self.init = function () {        self.grid = api.util.grid.init({          node: api.getModuleNode().getNode(),          form: $f,          layout: 'no-apply',          grid: [            {              template: $content.select('#jsGrid_MDCSTAT022_0'),              bld: 'dbms/MDC/STAT/standard/MDCSTAT02201',              bldDataKey: 'output',              lateInfoYn: false,              unit: {                share: ['ASK_TRDVOL', 'BID_TRDVOL', 'NETBID_TRDVOL'],                money: ['ASK_TRDVAL', 'BID_TRDVAL', 'NETBID_TRDVAL']              },              applyRowBg: false,              customRowBg: {                reference: 'CONV_OBJ_TP_CD',                row: [                  {                    key: 'GB',                    color: '#E4E4E4'                  },                  {                    key: 'SS',                    color: '#F8F8F8'                  },                  {                    key: 'TS',                    color: '#F0F0F0'                  }                ]              }            },            {              template: $content.select('#jsGrid_MDCSTAT022_1'),              bld: 'dbms/MDC/STAT/standard/MDCSTAT02202',              bldDataKey: 'output',              unit: {                share: ['TRDVAL1', 'TRDVAL2', 'TRDVAL3', 'TRDVAL4', 'TRDVAL_TOT'],                money: []              }            },            {              template: $content.select('#jsGrid_MDCSTAT022_2'),              bld: 'dbms/MDC/STAT/standard/MDCSTAT02202',              bldDataKey: 'output',              unit: {                share: [],                money: ['TRDVAL1', 'TRDVAL2', 'TRDVAL3', 'TRDVAL4', 'TRDVAL_TOT']              }            },            {              template: $content.select('#jsGrid_MDCSTAT022_3'),              bld: 'dbms/MDC/STAT/standard/MDCSTAT02203',              bldDataKey: 'output',              unit: {                share: ['TRDVAL1', 'TRDVAL2', 'TRDVAL3', 'TRDVAL4', 'TRDVAL5', 'TRDVAL6', 'TRDVAL7', 'TRDVAL8', 'TRDVAL9', 'TRDVAL10', 'TRDVAL11', 'TRDVAL_TOT'],                money: []              }            },            {              template: $content.select('#jsGrid_MDCSTAT022_4'),              bld: 'dbms/MDC/STAT/standard/MDCSTAT02203',              bldDataKey: 'output',              unit: {                share: [],                money: ['TRDVAL1', 'TRDVAL2', 'TRDVAL3', 'TRDVAL4', 'TRDVAL5', 'TRDVAL6', 'TRDVAL7', 'TRDVAL8', 'TRDVAL9', 'TRDVAL10', 'TRDVAL11', 'TRDVAL_TOT']              }            }                      ]        });        self.inqTpCdChg();                self.search();      };      self.search = function () {        var value = $f.find('[name="inqTpCd"]:checked').val();        var detailChk = $f.find('[name="detailView"]').is(":checked");        var trdVolVal = $f.find('[name="trdVolVal"]').val();                var index = 0;        if (value === '1') index = 0;        else if (value === '2' && trdVolVal === '1' && detailChk === false) index = 1;        else if (value === '2' && trdVolVal === '2' && detailChk === false) index = 2;        else if (value === '2' && trdVolVal === '1' && detailChk === true) index = 3;        else if (value === '2' && trdVolVal === '2' && detailChk === true) index = 4;                self.grid.setIndex(index); // 한 화면에 조건에 따라 다수의 그리드가 존재할 때 보여줄 그리드 인덱스 설정        self.grid.show(); // 위에 설정한 인덱스의 그리드를 보여주고 다른 그리드는 모두 숨김        self.grid.appendRow(); // 설정한 form 과 bld 를 바탕으로 서비스 조회 후 그리드에 데이터 삽입        self.grid.resize(); // MDI 화면 특성 상 append 후 리사이즈 필수      }            self.inqTpCdChg = function () {        var inqTpCd = $f.find('[name="inqTpCd"]:checked').val();        if(inqTpCd=="1"){          $f.find('[name="trdVolVal"]').hide();          $f.find('[name="askBid"]').hide();          $f.find('[name="detailView"]').closest('div').hide();        }        else {          $f.find('[name="trdVolVal"]').show();          $f.find('[name="askBid"]').show();          $f.find('[name="detailView"]').closest('div').show();        }        //self.search();      }      $f.find('[name=mktId]').on('change',function () {        var mktId = $(this).val();        if(mktId === 'KSQ' || mktId === 'KNX'){          $f.find('[name=etf]').attr({'checked':false,'disabled':true});          $f.find('[name=etn]').attr({'checked':false,'disabled':true});          $f.find('[name=elw]').attr({'checked':false,'disabled':true});        }        else {          $f.find('[name=etf]').attr({'checked':true,'disabled':false});          $f.find('[name=etn]').attr({'checked':true,'disabled':false});          $f.find('[name=elw]').attr({'checked':true,'disabled':false});        }      });          }  });

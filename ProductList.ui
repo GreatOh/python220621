@@ -17,7 +17,7 @@
    <widget class="QTextEdit" name="prodName">
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>90</x>
       <y>60</y>
       <width>131</width>
       <height>31</height>
@@ -27,7 +27,7 @@
    <widget class="QTextEdit" name="prodPrice">
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>90</x>
       <y>100</y>
       <width>131</width>
       <height>31</height>
@@ -184,7 +184,7 @@
    <widget class="QTextEdit" name="prodID">
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>90</x>
       <y>20</y>
       <width>131</width>
       <height>31</height>
@@ -211,7 +211,7 @@
      <x>0</x>
      <y>0</y>
      <width>567</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
@@ -258,8 +258,8 @@
    <slot>removeProduct()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>342</x>
-     <y>145</y>
+     <x>340</x>
+     <y>152</y>
     </hint>
     <hint type="destinationlabel">
      <x>395</x>
